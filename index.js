@@ -76,8 +76,11 @@ let appData = {
             appData.income.push(prompt('Может что-то еще?', 'Я подумаю'));
             appData.income.sort();
             appData.income.forEach(function (val, idx) {
-                alert(`Способы дополнительного заработка: \r ${idx + 1}. ${val} `);
+                // alert(`Способы дополнительного заработка: \r ${idx + 1}. ${val} `);
+                idx === 0 ? a = `${idx + 1}. ${val} \n` :
+                a += ` ${idx + 1}. ${val} \n`;
             })
+            alert(`Способы дополнительного заработка: \n ${a}`);
         }
         console.log('Наша программа включает в себя данные:');
         for (data in appData) {
