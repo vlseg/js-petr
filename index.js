@@ -1,3 +1,29 @@
+let startBtn = document.getElementById('start'),
+    budgetValue = document.getElementsByClassName('budget-value')[0],
+    dayBudgetValue = document.getElementsByClassName('daybudget-value')[0],
+    levelValue = document.getElementsByClassName('level-value')[0],
+    expensesValue = document.getElementsByClassName('expenses-value')[0],
+    optionalExpensesValue = document.getElementsByClassName('optionalexpenses-value')[0],
+    incomeValue = document.getElementsByClassName('income-value')[0],
+    monthSavingsVaIue = document.getElementsByClassName('monthsavings-value')[0],
+    yearSavingsValue = document.getElementsByClassName('yearsavings-value')[0],
+
+
+    expensesItem = document.getElementsByClassName('expenses-item'),
+    expensesBtn = document.document.getElementsByTagName('button')[0],
+    optionalExpensesBtn = document.getElementsByTagName('button')[1],
+    countBtn = document.getElementsByTagName('button')[2],
+    optionalExpensesItem = document.querySelectorAll('.optionalexpenses-item'),
+    incomeItem = document.querySelector('.choose-income'),
+    checkSavings = document.querySelector('#savings'),
+    sumVaIue = document.querySelector('.choose-sum'),
+    percentValue = document.querySelector('.choose-percent'),
+    yearValue = document.querySelector('.year-value'),
+    monthVatue = document.querySelector('.month-value'),
+    dayValue = document.querySelector('.day-value');
+
+
+
 let money, time;
 function start() {
     money = +prompt('Ваш бюджет на месяц? (грн)', '4000');
@@ -76,10 +102,9 @@ let appData = {
             appData.income.push(prompt('Может что-то еще?', 'Я подумаю'));
             appData.income.sort();
             appData.income.forEach(function (val, idx) {
-                // alert(`Способы дополнительного заработка: \r ${idx + 1}. ${val} `);
                 idx === 0 ? a = `${idx + 1}. ${val} \n` :
                 a += ` ${idx + 1}. ${val} \n`;
-            })
+            });
             alert(`Способы дополнительного заработка: \n ${a}`);
         }
         console.log('Наша программа включает в себя данные:');
