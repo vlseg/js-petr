@@ -6,7 +6,7 @@ window.addEventListener('DOMContentLoaded', function () {
         infobtn = document.querySelectorAll('.description-btn'),
         tabContent = document.querySelectorAll('.info-tabcontent');
 
-    infobtn[0].addEventListener('click', function (e) {modwind()});
+    infobtn[0].addEventListener('click', function () {modwind()});
 
     hideTabContent(1);
 
@@ -76,13 +76,12 @@ window.addEventListener('DOMContentLoaded', function () {
     getTimeUpdate();
 
     let more = document.querySelector('.more'),
-        desbtn = document.getElementsByClassName('description-btn'),
         overlay = document.querySelector('.overlay'),
         close = document.querySelector('.popup-close');
 
     function modwind() {
         overlay.style.display = 'block';
-        document.body.style.overflow = 'hidden'
+        document.body.style.overflow = 'hidden';
     }
 
     more.addEventListener('click', function () {
@@ -93,7 +92,73 @@ window.addEventListener('DOMContentLoaded', function () {
     close.addEventListener('click', function () {
         overlay.style.display = 'none';
         more.classList.remove('more-splash');
-        document.body.style.overflow = ''
+        document.body.style.overflow = '';
+        let element = document.querySelector('.status');
+        element.parentNode.removeChild(element);
     });
+
+    // Form
+
+    let message = {
+        loaded: '<br>Идет загрузка...',
+        success: '<br>Спасибо! Скоро мы с вами свяжемся!',
+        failure: '<br>Что-то пошло не так...'
+    };
+
+    // console.log(input)
+
+    let form1 = document.querySelector('.main-form'),
+        form2 = document.getElementById('form');
+
+    form1.addEventListener('click', function (event) {
+        if (event.target.localName === 'button') sendForm(form1)
+    });
+
+    form2.addEventListener('click', function () {
+        if (event.target.localName === 'button') sendForm(form2)
+    });
+
+    let statusMessage = document.createElement('div');
+    statusMessage.classList.add('status');
+
+    function sendForm(formItem) {
+        let form = formItem,
+            input = form.getElementsByTagName('input');
+
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+            form.appendChild(statusMessage);
+
+            let request = new XMLHttpRequest();
+            request.open('POST', 'http://localhost/vuebackend/server.php');
+            let formData = new FormData (form);
+
+        // request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');   // запрос в формате formData
+
+        // запрос в формате JSON
+            request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+            let obj = {};
+            formData.forEach(function (value, key) {
+               obj[key] = value;
+            });
+            formData = JSON.stringify(obj);
+        //----------------------
+            request.send(formData);
+            request.addEventListener('readystatechange', function () {
+                if (request.readyState < 4) {
+                        statusMessage.innerHTML = message.loaded;
+                    } else if (request.readyState === 4 && request.status === 200) {
+                        statusMessage.innerHTML = message.success;
+                    } else {
+                        statusMessage.innerHTML = message.failure;
+                    }
+            });
+
+            for(let i=0;i<input.length;i++) {
+                input[i].value = '';
+            }
+        })
+    }
+
 
 });
